@@ -5,7 +5,19 @@
   <h1>Hello {{usr}}</h1>
   <p class="important">
     Welcome to your homepage. Insert fav color picker here.
+  <form action="#" method="POST">
+    <div class="mb-3">
+      <label for="userEmail" class="form-label">Email address</label>
+      <input type="email" class="form-control" id="userEmail" name="userEmail" aria-describedby="emailHelp" value="{{email if email}}">
+      <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </form>
 
+
+
+
+    
 <!-- Random Toast -->
 <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
   <div class="toast-header">

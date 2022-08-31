@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<form action="#" method="post">
+    <div class="mb-3">
+        <label for="inputUsername" class="form-label">Username</label>
+        <input type="text" class="form-control" id="inputUsername" name="username" aria-describedby="inputGroupPrepend"
+            required>
+    </div>
+    <div class="mb-3">
+        <label for="inputEmail" class="form-label">Email</label>
+        <input type="email" class="form-control" id="inputEmail" name="email" aria-describedby="inputGroupPrepend"
+            required>
+        <div id="emailHelp" class="form-text">You can definitly trust me UwU</div>
+    </div>
+    <div class="mb-3">
+        <label for="inputPassword" class="form-label" required>Password</label>
+        <input type="password" class="form-control" id="inputPassword">
+    </div>
+    <div class="mb-3">
+        <label for="confirmPassword" class="form-label" required>Confirm Password</label>
+        <input type="password" class="form-control" id="confirmPassword">
+    </div>
+    <div class="mb-3 form-switch">
+        <input type="checkbox" class="form-check-input" id="stayLoggedIn" disabled>
+        <label class="form-check-label" for="stayLoggedIn">UwU</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Let's GOOOOO</button>
+</form>
+{% endblock %}

@@ -3,31 +3,24 @@
 
 {% block content %}
 
-<!-- flashes all messages rn-->
-
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-{% for msg in messages %}
-<p>{{msg}}</p>
-{% endfor %}
-{% endif %}
-{% endwith %}
-
-
 <form action="#" method="post">
   <div class="mb-3">
     <label for="inputUsername" class="form-label">Username</label>
-    <input type="text" class="form-control" id="inputUsername" name="username" aria-describedby="inputGroupPrepend" required>
-    <div id="emailHelp" class="form-text">You can definitly trust me >w<</div>
-  </div>
-  <div class="mb-3">
-    <label for="inputPassword" class="form-label" required>Password</label>
-    <input type="password" class="form-control" id="inputPassword">
-  </div>
-  <div class="mb-3 form-switch">
-    <input type="checkbox" class="form-check-input" id="stayLoggedIn" disabled>
-    <label class="form-check-label" for="stayLoggedIn">UwU</label>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+    <input type="text" class="form-control" id="inputUsername" name="username" aria-describedby="inputGroupPrepend"
+      required>
+    <div id="emailHelp" class="form-text">You can definitly trust me >w<
+    </div>
+    <div class="mb-3">
+      <label for="inputPassword" class="form-label" required>Password</label>
+      <input type="password" class="form-control" id="inputPassword">
+    </div>
+    <div class="mb-3 form-switch">
+      <input type="checkbox" class="form-check-input" id="stayLoggedIn" disabled>
+      <label class="form-check-label" for="stayLoggedIn">UwU</label>
+    </div>
+    <div class="mb-3">
+      <p>Don't have an account?<a href="/register">Sign Up!</a></p>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 {% endblock %}

@@ -8,7 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.secret_key = 'test'    # TODOOOOOO: change to something secure
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://users.sqlite3'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # removes some warnings
 app.permanent_session_lifetime = timedelta(days=5)
 
@@ -19,13 +19,23 @@ class users(db.Model):
     _id = db.Column("id", db.Integer, primary_key=True)  # defines the id and sets it as the primary_key
     name = db.Column(db.String(100))
     email = db.Column(db.String(100))
+    password = db.Column(db.String(100))
 
-    def __init__(self, name, email):
+    def __init__(self, name, email, password):
         self.name = name
         self.email = email
+        self.password = password
 
 
 favColor = '#FFFF33'
+
+def renderTemplate(template: str):
+    """Returns the html code of the template. Needs to be returned again."""
+    if "user" in session:
+        # if logged in
+        return render_template(template, status='logout')
+    else:
+        return render_template(template, status='login')
 
 
 @app.route('/')
@@ -71,7 +81,10 @@ def user():
         if request.method == "POST":
             email = request.form['userEmail']
             session['email'] = email
-            flash('Email was saved!', 'info')  # doesnt work rn. See login.html for info
+            foundUsr = users.query.filter_by(name=user).first()
+            foundUsr.email = email
+            db.commit()
+            flash('Email was saved!', 'info')  
         else:
             if 'email' in session:
                 email = session['email']
@@ -84,15 +97,25 @@ def user():
     else:
         return redirect(url_for('login'))
 
+@app.route('/register/', methods=['POST', 'GET'])
+def register():
+    if request.method == 'POST':
+        session.permanent = True
+        user = request.form['username']
+        session['user'] = user
+        foundUsr = users.query.filter_by(name=user).first()
+
+        if foundUsr:
+            session['email'] = foundUsr.email
+        else:
+            usr = users(user, None, None)
+            db.add(usr)
+            db.commit()
+    return renderTemplate('register.html')
 
 @app.route('/contact/')
 def contact():
-    if "user" in session:
-        # if logged in
-        return render_template('contact.html', status='logout')
-    else:
-        return render_template('contact.html', status='login')
-
+    return renderTemplate('contact.html')
 
 if __name__ == '__main__':
     db.create_all()

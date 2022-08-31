@@ -1,3 +1,5 @@
+**Note: This was an attempt to create a login system. I decided that I didn't want one anymore so I shelved it for now.**
+
 This is the code for my [website](http://eldosdumpingground.de)
 
 run site with (needs sudo to use 0.0.0.0 host)

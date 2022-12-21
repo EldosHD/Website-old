@@ -1,50 +1,35 @@
 #!/usr/bin/python3
-"""This is the code for my amazing website."""
-
-import re
-from flask import Flask, render_template, redirect, url_for, session, request
-from flask import flash
-from datetime import timedelta
 import argparse
-import owo
-
-app = Flask(__name__)
-app.permanent_session_lifetime = timedelta(days=5)
-
-
-@app.route('/')
-@app.route('/home/')
-def home():
-    return render_template('index.html')
-
-
-@app.route('/about/')
-def about():
-    return render_template('about.html')
-
-@app.route('/projects/')
-def projects():
-    return render_template('projects.html')
-
-@app.route('/owo/')
-@app.route('/uwu/')
-@app.route('/translator/')
-def translator():
-    return render_template('translator.html')
-
+import subprocess
 
 if __name__ == '__main__':
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description="This script starts the website by invoking a flask command")
 
-    parser.add_argument('--debug',action='store_true' ,default=False ,help='Enables debug mode for the flask')
-    parser.add_argument('-p','--port',default=80, type=int ,help='Specify the port for the webserver')
-    parser.add_argument('--test',action='store_true' ,default=False ,help='Sets debug mode to true and the port to 5000')
+    parser.add_argument('--debug', action='store_true',
+                        default=False, help='Enables debug mode for the flask')
+    parser.add_argument('-p', '--port', default=80, type=int,
+                        help='Specify the port for the webserver')
+    parser.add_argument('--test', action='store_true', default=False,
+                        help='Sets debug mode to true and the port to 5000')
+
+    parser.add_argument('--app-name', default="website", type=str,
+                        help='Sets the name for the python script that will be started. This is "website" by default')
 
     args = parser.parse_args()
-    
+
     if args.test == True:
         args.debug = True
         args.port = 5000
 
-    app.run(debug=args.debug, port=args.port)
+    subprocess.run(['export', f'FLASK_RUN_PORT={args.port}'],shell=True)
+    subprocess.run(['export', f'FLASK_APP={args.app_name}'],shell=True)
+    if args.debug == True:
+        subprocess.run(['export', f'FLASK_RUN_HOST=""'],shell=True)
+        subprocess.run(['export', f'FLASK_ENV="debug"'],shell=True)
+    else:
+        subprocess.run(['export', f'FLASK_RUN_HOST="0.0.0.0"'],shell=True)
+        subprocess.run(['export', f'FLASK_ENV="development"'],shell=True)
+
+    subprocess.run([f'sudo','flask','run'], shell=True)
